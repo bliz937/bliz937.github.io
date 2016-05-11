@@ -2,6 +2,7 @@
 layout: post
 title:  "php not executing"
 date:   2016-05-04 21:00:00 +0200
+description: php not executing, instead showing source code
 tags: web server, php, apache
 ---
 A third year student messaged me on Telegram, asking for assistance with a php error he was experiencing.

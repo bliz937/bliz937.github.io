@@ -17,3 +17,7 @@ github_username:  bliz937
 
 # Build settings
 markdown: kramdown
+
+# Plugins
+gems:
+  - jekyll-seo-tag
