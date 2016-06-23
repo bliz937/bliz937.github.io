@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "No IPv6 network on Pi2"
+date:   2016-06-23 13:50:00 +0200
+description: Cannot ping from Pi2 to windows machine using IPv6
+tags: raspberry pi, pi, networking, routing, ipv6, network
+---
+I have a [Raspberry pi 2 b](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) which I use as my Linux machine.
+I would, from my windows laptop, ssh into the pi.
+
+## My problem
+I would connect to the pi using the wired lan and the auto IPv6 addressing would enable me to ssh without needing to do any form of network setup.
+From my windows machine, I could ping the pi's IPv6 address. However, from the pi, I could not ping the windows machine via IPv6.
+Turning off the firewall did not help.
+
+I even tried to ping using specific arguments such as specifying the device and IPv6 protocol.
+
+## My fix
+I noticed that when running ```route``` on the pi, I only had routes for the wireless nic.
+
+```bash
+[root@pluto ~]# route -v
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         gateway         0.0.0.0         UG    303    0        0 wlan0
+192.168.1.0     *               255.255.255.0   U     303    0        0 wlan0
+```
+
+I then did a quick search on how to add an IPv6 route for the ```eth0``` interface.
+My first result lead me to [tldp.org](http://www.tldp.org/HOWTO/Linux+IPv6-HOWTO/x1183.html).
+
+Running the rule
+
+```bash
+route -A inet6 add default dev eth0
+```
+
+enabled me to ping the windows machine from the pi.
+
+TL;DR: Could not ping from the Pi using IPv6. Had to manually add IPv6 route to routing table.
