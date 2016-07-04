@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "Stuck installing Visual Studio 2013 applying KB2664825"
+date:   2016-07-04 13:00:00 +0200
+description: Stuck installing Visual Studio 2013 at applying KB2664825 hotfix
+tags: windows, microsoft, visual studio, ide, installing, install, update
+---
+Doing some C# coding, I wanted to install Visual Studio 2013.
+
+## My problem
+The installer opens fine and proceeds to install, after some clicks.
+It appears to be stuck at applying a hotfix for windows; KB2664825.
+
+
+Some sites, [example](https://social.msdn.microsoft.com/Forums/vstudio/en-US/57e30c3e-edff-464b-9087-a065c92ad112/hotfix-for-windows-kb2664825-catastrophic-failure-installing-vs-2012?forum=vssetup), recommend turning off the AV and disabling Windows update.
+
+## My fix
+I turned off the AV and the Windows update service. However, I noticed from previous times that Windows update automatically starts up again. So during the installation, if the progress bar appeared stuck, I simply disabled the service again.
+
+TL;DR: Visual Studio stuck installing, disable Windows update multiple times in services.
