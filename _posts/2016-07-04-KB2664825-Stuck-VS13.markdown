@@ -2,7 +2,7 @@
 layout: post
 title:  "Stuck installing Visual Studio 2013 applying KB2664825"
 date:   2016-07-04 13:00:00 +0200
-description: Stuck installing Visual Studio 2013 at applying KB2664825 hotfix
+description: During the installation of Visual Studio 2013, the progress bar became stuck at a hotfix.
 tags: windows, microsoft, visual studio, ide, installing, install, update
 ---
 Doing some C# coding, I wanted to install Visual Studio 2013.
