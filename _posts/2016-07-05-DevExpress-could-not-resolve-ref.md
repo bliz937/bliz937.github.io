@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "DevExpress could not resolve reference"
-date:   2016-07-04 13:00:00 +0200
+date:   2016-07-05 13:00:00 +0200
 description: Opening an old project, Visual Studio gave a warning about not finding the DevExpress reference.
 tags: windows, visual studio, devexpress, code, c#
 ---

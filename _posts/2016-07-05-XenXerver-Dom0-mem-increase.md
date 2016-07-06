@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Increasing XenServer dom0 memory"
-date:   2099-07-05 13:00:00 +0200
+date:   2016-07-05 13:00:00 +0200
 description: XenServer comes with the default dom0 memory at under a gb, I needed to increase that.
 tags: xen, xenserver, citrix, virtual, virtual machine, vm, memory, ram
 ---
@@ -15,7 +15,7 @@ For XenServer 6, I found that changing ```dom0_mem``` in
 
 ```/boot/extlinux.conf```,
 
- along with ```max``` that followed it, did the trick.
+ along with ```max``` that followed it, did the trick; [ref](https://support.citrix.com/article/CTX126531).
 
 For XenServer 7, the config file seems to have changed to
 
