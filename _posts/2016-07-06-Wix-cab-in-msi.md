@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Wix: embed cab in installer"
+title:  "Wix&#58 embed cab in installer"
 date:   2016-07-06 13:00:00 +0200
-description: Embedding the cab files in a Wix project into the actual installer.
+description: "Embedding the cab files in a Wix project into the actual installer."
 tags: wix, installer, cab, install, windows, wax, visual studio
 ---
 I have a project which I wanted to create an installer for. [Wix](http://wixtoolset.org/) is a great tool but has a steep learning curve. I used [Wax](https://github.com/tom-englert/Wax), a Visual Studio plugin, to help simply the process a bit.
