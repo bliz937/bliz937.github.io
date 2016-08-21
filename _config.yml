@@ -22,3 +22,4 @@ markdown: kramdown
 # Plugins
 gems:
   - jekyll-seo-tag
+  - jekyll-gist
