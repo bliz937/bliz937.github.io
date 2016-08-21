@@ -25,17 +25,17 @@
             {% include icon-twitter.html username=site.twitter_username %}
           </li>
           {% endif %}
+        </ul>
+      </div>
 
+      <div class="footer-col footer-col-2">
+        <ul class="referral-list">
           {% if site.rescuetime_ref %}
           <li>
             {% include icon-rescuetime.html rt_ref=site.rescuetime_ref %}
           </li>
           {% endif %}
         </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
       </div>
     </div>
 
