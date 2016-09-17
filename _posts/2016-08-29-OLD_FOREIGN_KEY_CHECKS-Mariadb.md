@@ -20,7 +20,12 @@ if (!$conn->query($sqlcmd)) {
 When running this, I would receive the following error:
 
 ```
-You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0; SET @OLD' at line 2
+You have an error in your SQL syntax;
+check the manual that corresponds to
+your MariaDB server version for the
+right syntax to use near
+'SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS,
+FOREIGN_KEY_CHECKS=0; SET @OLD' at line 2
 ```
 
 ## My fix
@@ -28,9 +33,9 @@ After browsing around, I came to [multi_query](http://www.php.net/manual/en/mysq
 
 My code should thus look like:
 
-```
+```php
+...
 $sqlcmd = file_get_contents("db.sql");
-
 
 if (!$conn->multi_query($sqlcmd)) {
 ...
