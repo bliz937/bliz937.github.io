@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "No connectivity on ppp"
-date:   2016-10-21 13:00:00 +0200
+date:   2016-10-21 14:00:00 +0200
 description: "Setting up a PPPOE connection with ppp, there is no internet connectivity."
 tags: arch linux archlinux network pppoe ppp pppd
 ---
@@ -9,16 +9,16 @@ tags: arch linux archlinux network pppoe ppp pppd
 On Arch Linux, I want to setup a [PPPOE](https://en.wikipedia.org/wiki/PPPoE) connection. In other Linux distributions, I could find a GUI setup under the network settings, however, it was not the case here. An [archlinux wiki](https://wiki.archlinux.org/index.php/pppd) post details how to achieve a connection using the [ppp](https://www.archlinux.org/packages/?name=ppp) package. I followed the steps and managed to connect, by running ```journalctl -b --no-pager | grep pppd```, I got:
 
 ```bash
-Oct 21 13:10:28 jupiterx pppd[28779]: Starting link
-Oct 21 13:10:28 jupiterx pppd[28779]: PPP session is 3
-Oct 21 13:10:28 jupiterx pppd[28779]: Connected to 9c:97:26:zz:yy:xx via interface wlann0
-Oct 21 13:10:28 jupiterx pppd[28779]: Connect: ppp0 <--> wlann0
-Oct 21 13:10:28 jupiterx pppd[28779]: Remote message: Login ok
-Oct 21 13:10:28 jupiterx pppd[28779]: PAP authentication succeeded
-Oct 21 13:10:28 jupiterx pppd[28779]: peer from calling number 9C:97:26:zz:xx:yy authorized
-Oct 21 13:10:28 jupiterx pppd[28779]: Local IP address changed to 169.1.150.91
-Oct 21 13:10:28 jupiterx pppd[28779]: not replacing existing default route via 192.168.1.1
-Oct 21 13:10:28 jupiterx pppd[28779]: Cannot determine ethernet address for proxy ARP
+pppd[28779]: Starting link
+pppd[28779]: PPP session is 3
+pppd[28779]: Connected to 9c:97:26:zz:yy:xx via interface wlann0
+pppd[28779]: Connect: ppp0 <--> wlann0
+pppd[28779]: Remote message: Login ok
+pppd[28779]: PAP authentication succeeded
+pppd[28779]: peer from calling number 9C:97:26:zz:xx:yy authorized
+pppd[28779]: Local IP address changed to 169.1.150.91
+pppd[28779]: not replacing existing default route via 192.168.1.1
+pppd[28779]: Cannot determine ethernet address for proxy ARP
 ```
 
 ## My problem
