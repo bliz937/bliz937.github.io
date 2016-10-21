@@ -25,7 +25,7 @@ Running ```ip link```, we have an output of
     link/ether bc:77:37:01:ab:46 brd ff:ff:ff:ff:ff:ff
 ```
 
-What we need from here is the ```link/ether```, which is the physical address of the networking interface.
+What we need from here is the value of ```link/ether```, which is the physical address of the networking interface.
 Create a new file ```/etc/udev/rules.d/10-network.rules``` and add the following
 
 ```bash
