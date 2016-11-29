@@ -7,22 +7,14 @@ tags: hadoop cluster parallel computing apache setup sysadmin
 ---
 
 For my operating systems module, we needed to install and code for [Apache Hadoop](https://en.wikipedia.org/wiki/Apache_Hadoop).
-I wanted to try and script as much as this as possible.
-
-I created the script below, and to an extent have gotten
-
-* [Standalone Operation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html)
-* [Pseudo-Distributed Operation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html)
-* [Cluster setup](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html)
-
-I have, however, managed to break my machine with this script, but the error that caused it has been fixed. Regardless, you are to **run this script at your own risk**. This post is targeted at ```hadoop 2.7.2```.
+I wanted to try and script the install process as much as possible, and so I have done that. I have, however, managed to break my machine with this script, but the error that caused it has been fixed. Regardless, you are to **run this script at your own risk**. This post is targeted at ```hadoop 2.7.2```.
 
 The script needs some configuration, namely the variables and application paths that can be found at the top.
-I configured this script for Arch Linux, so do have a look that the configuration is correct. To find application path, you can use ```which```, eg: ```which tar```. If the result is not the same as in the script, change the script to match the output.
+I configured this script for Arch Linux, so do have a look that the configuration is correct. To find an application path, you can use ```which```, eg: ```which tar```. If the result is not the same as in the script, change the script to match the output. If there is no result, install the package.
 
 {% gist cab29ba333e3c10f1f9bd4e46af043c4 %}
 
-Run the script as root (reason how I broke my machine and why you should do this at your own risk).
+Run the script as root - reason how I broke my machine and why you should do this at **your own risk**.
 
 ```bash
 sudo su
@@ -38,32 +30,21 @@ chmod +x hadoop-setup.sh
 
 ![Downloading hadoop](/assets/2016/08/hadoop-download.png)
 
-During the execution of the script, there will be times where the script will wait for user input with some message. The first one is the result from running a job standalone. Hitting enter will continue the script.
+After hadoop is downloaded, it will be extracted to ```/opt/hadoop/```, the hadoop user will be created and a local job will run.
 
-![Result of standalone hadoop run](/assets/2016/08/hadoop-standalone.png)
+![Hadoop extracting and running local job](/assets/2016/08/hadoop_extract_and_run.png)
+
+At the end of the job, the result will be displayed and the script will pause for user input. Hit enter to continue.
+
+![Hadoop local job result](/assets/2016/08/hadoop_local_job.png)
 
 The second pause, the script will ask that the root and hadoop account to have public key authentication. This basically involves running ```ssh-keygen``` and copying ```id_rsa.pub``` to ```authorized_keys``` in the ```~/.ssh/``` directory. There are a few guides online on this if you are not familiar with the process.
 
-![Hadoop enable public key authentication](/assets/2016/08/hadoop-pubkey.png)
+![Hadoop enable public key authentication](/assets/2016/08/hadoop_ssh_keys.png)
 
-Next the datanode and namenode service starts, and the script pauses with a message to view ```http://localhost:50070``` in the web browser.
+After that, the cluster configuration is done and the hadoop file system is formatted.
 
-![Hadoop datanode](/assets/2016/08/hadoop-namenode.png)
-
-```http://localhost:50070``` should look similar to this:
-
-![Hadoop web datanode](/assets/2016/08/hadoop-web-storage.png)
-
-
-The next pause the script will inform you to have a look at the pseudo cluster job results which can be found above.
-
-![Hadoop pseduo cluster](/assets/2016/08/hadoop-pseudo.png)
-
-The last step in the script configures the node's master job tracker and hdfs.
-
-![Hadoop script finish](/assets/2016/08/hadoop-finish.png)
-
-The script ends of saying what still needs to be done.
+![Hadoop datanode](/assets/2016/08/hadoop_finish.png)
 
 #### On master node
 
@@ -89,33 +70,13 @@ Add all the slave hostname's to ```/opt/hadoop/etc/hadoop/slaves```.
 
 On the **slaves**, add the **master**'s IP and hostname in ```/etc/hosts```.
 
-On the **slaves**, run
-
-```bash
-hadoop-daemon.sh start datanode
-hadoop-daemon.sh start namenode
-```
-
-Running ```jps``` on the slaves, you should see
-
-```
-hadoop@node1:~$ jps
-15360 DataNode
-15474 Jps
-```
 
 #### Starting the cluster
 
-On master
+On master, to start the hdfs, run:
 
 ```bash
-hadoop-daemon.sh --config /opt/hadoop/etc/hadoop/ --script hdfs start namenode
-hadoop-daemon.sh --config /opt/hadoop/etc/hadoop/ --script hdfs start datanode
 start-dfs.sh
-yarn-daemon.sh --config /opt/hadoop/etc/hadoop/ start resourcemanager
-yarn-daemon.sh --config /opt/hadoop/etc/hadoop/ start nodemanager
-start-yarn.sh
-mr-jobhistory-daemon.sh --config /opt/hadoop/etc/hadoop/ start historyserver
 ```
 
 ```jps``` should look similar to
@@ -123,12 +84,36 @@ mr-jobhistory-daemon.sh --config /opt/hadoop/etc/hadoop/ start historyserver
 ```
 [hadoop@nyancat shev]$ jps
 7954 NameNode
-8771 ResourceManager
-9060 NodeManager
 8085 DataNode
 9769 Jps
 8585 SecondaryNameNode
-9674 JobHistoryServer
+```
+
+To start the job tracker, run:
+
+```bash
+start-yarn.sh
+```
+
+```jps``` should look similar to
+
+```bash
+[hadoop@nyancat shev]$ jps
+8771 ResourceManager
+9060 NodeManager
+9773 Jps
+```
+
+Lastly, starting the history server:
+
+```bash
+mr-jobhistory-daemon.sh start historyserver
+```
+
+```bash
+[hadoop@nyancat shev]$ jps
+10269 JobHistoryServer
+9231 Jos
 ```
 
 #### stopping the cluster
@@ -136,13 +121,9 @@ mr-jobhistory-daemon.sh --config /opt/hadoop/etc/hadoop/ start historyserver
 On master
 
 ```bash
-hadoop-daemon.sh --config /opt/hadoop/etc/hadoop/ --script hdfs stop namenode
-hadoop-daemon.sh --config /opt/hadoop/etc/hadoop/ --script hdfs stop datanode
+mr-jobhistory-daemon.sh stop historyserver
 stop-dfs.sh
-yarn-daemon.sh --config /opt/hadoop/etc/hadoop/ stop resourcemanager
-yarn-daemon.sh --config /opt/hadoop/etc/hadoop/ stop nodemanager
 stop-yarn.sh
-mr-jobhistory-daemon.sh --config /opt/hadoop/etc/hadoop/ stop historyserver
 ```
 ```jps``` should look similar to:
 
@@ -151,15 +132,59 @@ mr-jobhistory-daemon.sh --config /opt/hadoop/etc/hadoop/ stop historyserver
 13958 Jps
 ```
 
+#### Running jobs
+
+You can run jobs by running the following commands
+
+```bash
+hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar /input/ /output/
+```
+
+Where ```/input``` and ```/output``` are directories on the hdfs.
+
+You can use ```copyFromLocal``` to copy files form the local file system to the hdfs.
+
+Example: ```hdfs dfs -copyFromLocal ./foo /input```
+
+More hdfs commands can be found here: [https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/FileSystemShell.html](https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/FileSystemShell.html)
+
 #### Stats
 
 hdfs: [http://localhost:50070/](http://localhost:50070/)
 
+![Hadoop web datanode](/assets/2016/08/hadoop-web-storage.png)
+
+Resource manager:  [http://localhost:8088/](http://localhost:8088/)
+
+![Job tracker](/assets/2016/08/yarn_job.png)
+
+JobHistoryServer:  [http://localhost:19888](http://localhost:19888)
+
+![Job history server](/assets/2016/08/history_server.png)
+
+#### Diagnostics
+
+I had a case where a slave data node was not working. To diagnose the cause, I simply ran:
+
+```bash
+hadoop datanode
+```
+
+Observing the output helped to find the problem.
+
 #### Extra reading
-[HDFS commands](https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/FileSystemShell.html)
+* [readthedocs.io](https://doctuts.readthedocs.io/en/latest/hadoop.html)
 
-[Yarn](https://hadoop.apache.org/docs/r2.4.1/hadoop-yarn/hadoop-yarn-site/YARN.html)
+* [dwbi cluster setup](https://dwbi.org/etl/bigdata/183-setup-hadoop-cluster)
 
-[Michael-Noll single node setup](http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster/)
+* [Yarn](https://hadoop.apache.org/docs/r2.4.1/hadoop-yarn/hadoop-yarn-site/YARN.html)
 
-[Michael-Noll cluster setup](http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-multi-node-cluster/)
+* [Michael-Noll single node setup](http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster/)
+
+* [Michael-Noll cluster setup](http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-multi-node-cluster/)
+
+* [Standalone Operation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html)
+
+* [Pseudo-Distributed Operation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html)
+
+* [Cluster setup](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html)
