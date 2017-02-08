@@ -39,12 +39,12 @@ Some reasons for this was provided by an [answer](http://stackoverflow.com/quest
 
 I then used [WireShark](http://www.wireshark.org/) to have a look at the packets that the client and server apps were sending. My filter was ```tcp.port == 5000``` - I listened on TCP port 5000 in the server application.
 
-![WireShark capturing packets](/assets/2017/02/wcf-wireshark.png)
+![WireShark capturing packets](/assets/2017/02/wcf-wireshark.PNG)
 
 The above shows some malformed packets being sent, but on an unknown protocol to me.
 This wasn't very helpful. However, in the last packet from the server, I can see that the network connection is indeed being reset with the [RST](http://packetlife.net/blog/2011/mar/2/tcp-flags-psh-and-urg/) flag.
 
-Next, I enabled tracing on the server application with the help of this Youtube video: https://www.youtube.com/watch?v=fXSjwBgRrto.
+Next, I enabled tracing on the server application with the help of this Youtube video: [https://www.youtube.com/watch?v=fXSjwBgRrto](https://www.youtube.com/watch?v=fXSjwBgRrto).
 
 Running the WCF applications again and looking at the tracing result showed
 
@@ -59,6 +59,6 @@ Going to my class, that has the ```[DataContract]``` attribute, I then could do 
 
 1) Add a ```private set``` to the property that has the ```[DataMember]``` attribute
 
-2) Move the ```[DataMember]``` attribute to the private field instead
+2) Move the ```[DataMember]``` attribute to the private field
 
 I have come across other solutions relating to the connection being reset, but in this instance, this was the solution that worked for me.
