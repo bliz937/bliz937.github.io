@@ -6,7 +6,7 @@ description: "WCF - An existing connection was forcibly closed by the remote hos
 tags: windows network wcf reset visual studio visualstudio exception
 ---
 
-Building an application that uses WCF, I ran into an issue that was similar to [WCF Connection Reset](_posts/2017-02-08-WCF-connection-reset.md) but was caused by something else.
+Building an application that uses WCF, I ran into an issue that was similar to [WCF Connection Reset](/2017/02/08/WCF-connection-reset.html) but was caused by something else.
 
 ## My problem
 
@@ -28,7 +28,7 @@ ERROR - An existing connection was forcibly closed by the remote host
 
 ## My fix
 
-As in the [WCF Connection Reset](_posts/2017-02-08-WCF-connection-reset.md) post, I turned on tracing.
+As in the [WCF Connection Reset](/2017/02/08/WCF-connection-reset.html) post, I turned on tracing.
 
 The first exception encountered being
 ```
