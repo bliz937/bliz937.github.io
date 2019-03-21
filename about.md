@@ -9,10 +9,4 @@ Use the information presented here **at your own risk**. If you find an error on
 
 ---
 
-
-Aside from tech related things, I enjoy listening to music and taking photos.
-
-I have a blog of music that I enjoy [http://bliz937m.tumblr.com](http://bliz937m.tumblr.com), as well as some of my own photos
-[http://bliz937.tumblr.com](http://bliz937.tumblr.com).
-
-You can reach me on [Telegram](https://telegram.org) - @bliz937.
+Aside from tech, I also enjoy photography. I have another blog for that [here](shev.app).
