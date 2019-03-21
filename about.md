@@ -9,4 +9,5 @@ Use the information presented here **at your own risk**. If you find an error on
 
 ---
 
-Aside from tech, I also enjoy photography. I have another blog for that [here](shev.app).
+
+Aside from tech, I also enjoy photography. I have another blog for that [here](https://shev.app).
